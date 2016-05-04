@@ -1,1 +1,1 @@
-# -DT2118-Deep-Learning-Project
+# DT2118-Deep-Learning-Project
