@@ -2,3 +2,4 @@ generate_data/tidigits
 data
 *.swp
 *.swo
+*.pyc
