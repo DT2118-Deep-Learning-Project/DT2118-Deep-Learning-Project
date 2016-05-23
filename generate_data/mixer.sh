@@ -6,16 +6,15 @@
 # Takes one parameter: the sphere file to noisify
 noisify() {
     filename=$(basename "$1")
-    filename=${filename:0:-4}
     duration="$(sox --i -D $1)"
 
     # Generate noise
-    sox -n -r 20000 ../data/noise/${filename}.wav synth ${duration} whitenoise vol 0.02
+    sox -n -r 20000 ../data/noise/${filename} synth ${duration} whitenoise vol 0.02
     # Copy clean data
-    sox -t sph $1 -b 16 -t wav ../data/clean/${filename}.wav
+    sox -t sph $1 -b 16 -t wav ../data/clean/${filename}
     # Mix noise + clean
-    sox -m ../data/noise/${filename}.wav ../data/clean/${filename}.wav \
-        ../data/noisy/${filename}.wav gain -n
+    sox -m ../data/noise/${filename} ../data/clean/${filename} \
+        ../data/noisy/${filename} gain -n
 }
 
 dir="./tidigits/disc_4.1.1/tidigits/train/man"
