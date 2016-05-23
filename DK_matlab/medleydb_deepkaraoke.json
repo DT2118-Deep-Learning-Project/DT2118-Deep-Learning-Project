@@ -1,5 +1,5 @@
 {
-    "base_path": "/path/to/medleydb/Audio/",
+    "base_path": "Audio/",
     "mixes": [
         {
             "mix_path": "MusicDelta_Beatles/MusicDelta_Beatles_MIX.wav",

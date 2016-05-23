@@ -11,8 +11,10 @@ function network = train_neural_net(training_data, neural_net_path, opt)
         training_input = training_data.mix_frames' ./ max(max(training_data.mix_frames));
         training_output = ideal_binary_mask';
 
-        training_input = training_input(1:15000,:); % As in paper, crop to exactly 15k training examples
-        training_output = training_output(1:15000,:);
+        % Initialy 15k
+        input_size = 409;
+        training_input = training_input(1:input_size,:); % As in paper, crop to exactly 15k training examples
+        training_output = training_output(1:input_size,:);
 
         nn_opts.batchsize = 100; 
         nn_opts.plot = 0;
