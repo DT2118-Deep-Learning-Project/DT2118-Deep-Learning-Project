@@ -19,8 +19,8 @@ def extract(SoundPath):
     fft = tools.fftCoef(samples)
     return fft, tools.logMelSpectrum(fft, sndobj[1]) 
 
-prefix = './'
-listFolder = ['clean','noise','noisy']
+prefix = '../'
+listFolder = ['tidigits_clean','tidigits_noise','tidigits_noisy']
 slash = '/'
 
 
