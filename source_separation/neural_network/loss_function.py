@@ -11,7 +11,12 @@ from keras import backend as K
 import theano.tensor as tt
 
 gamma=0.5
-#sizesource=512
+sizesource=1
+
+def split_half(x, axis=0):
+    size1 = x.shape[axis] / 2
+    size2 = x.shape[axis] - size1
+    return tt.split(x, [size1, size2], 2, axis=axis)
 
 def mean_squared_error(y_true, y_pred):
     """
@@ -24,9 +29,8 @@ def source_separation_loss_function(y_true, y_pred):
     Need gloabal size for splitting data
     Need global coef gamma
     """
-    sizesource = y_true.size.eval()/2
-    y1_true, y2_true = tt.split(y_true, [sizesource, sizesource], 2)
-    y1_pred, y2_pred = tt.split(y_pred, [sizesource, sizesource], 2)
+    y1_true, y2_true = split_half(y_true, 1)
+    y1_pred, y2_pred = split_half(y_pred, 1)
     # Compute mean squared error
     p1 = mean_squared_error(y1_pred, y1_true)
     p2 = mean_squared_error(y1_pred, y2_true)
