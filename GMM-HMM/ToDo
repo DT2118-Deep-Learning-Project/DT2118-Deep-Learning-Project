@@ -1,0 +1,1 @@
+Modify train-gmm-hmm in order to do only the GMM 16 mixtures until 19 epochs
