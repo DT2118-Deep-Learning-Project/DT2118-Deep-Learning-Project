@@ -2,6 +2,7 @@
 # filter.py
 # Function for applying a mask on a stft for splitting it in two parts
 import numpy as np
+import separation as sp
 
 def apply_filter( mix, mask_1, mask_2 ):
     """
@@ -18,3 +19,15 @@ def apply_filter( mix, mask_1, mask_2 ):
 
     return source1, source2
 
+def get_bss_result(s1, s2, es1, es2):
+    """
+    s1, s2: the targeted sources
+    es1, es2: the esperated sources
+    Return the (SDR, SIR, SAR)
+    """
+    size = min( len(s1), len(s2), len(es1), len(es2) )
+
+    sdr, sir, sar, perm = sp.bss_eval_sources(np.array( [s1[1:size],  s2[1:size]] ), 
+                        np.array( [es1[1:size], es2[1:size]] ))
+
+    return sdr, sir, sar

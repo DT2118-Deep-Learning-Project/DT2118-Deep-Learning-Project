@@ -90,7 +90,7 @@ import numpy as np
 import warnings
 import collections
 
-from mir_eval import util
+from bss_eval import util
 
 BITMAP_LENGTH = 12
 NO_CHORD = "N"
