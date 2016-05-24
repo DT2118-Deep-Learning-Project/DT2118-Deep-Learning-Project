@@ -1,6 +1,7 @@
 #!/bin/bash
 
-dir_raw=tidigits/disc_4.1.1/tidigits
+dir_raw_train=tidigits/disc_4.1.1/tidigits
+dir_raw_test=tidigits/disc_4.2.1/tidigits
 dir_clean=tidigits_clean
 dir_noise=tidigits_noise
 dir_noisy=tidigits_noisy
@@ -32,8 +33,8 @@ lookFolder() {
     mkdir -p $dir_noise"/"$subdir
     mkdir -p $dir_noisy"/"$subdir
 
-    echo "folder: " $dir_raw/$subdir
-    for d in $dir_raw/$subdir/*; do
+    echo "folder: " $2/$subdir
+    for d in $2/$subdir/*; do
         echo ${d}
         for s in ${d}/*; do
             noisify ${s} 
@@ -45,6 +46,8 @@ rm -rf $dir_clean
 rm -rf $dir_noise
 rm -rf $dir_noisy
 
-lookFolder train/man
-lookFolder train/woman
+lookFolder train/man $dir_raw_train
+lookFolder train/woman $dir_raw_train
+lookFolder test/man $dir_raw_test
+lookFolder test/woman $dir_raw_test
 
