@@ -4,7 +4,7 @@ import numpy as np
 
 # SEE: https://github.com/fchollet/keras/issues/622 
 
-class MyLayer(Layer):
+class Last_Layer(Layer):
     def __init__(self, output_dim, **kwargs):
         self.output_dim = output_dim
         super(MyLayer, self).__init__(**kwargs)
