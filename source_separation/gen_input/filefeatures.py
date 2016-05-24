@@ -8,6 +8,8 @@
 # Eric Masseran
 
 import numpy as np
+import os
+import glob
 
 def save_feature(folder, allfft, allmel):
     """ 
@@ -37,3 +39,26 @@ def load_feature(prefix, settype, filename):
     allmel = data['allmel']
 
     return allfft, allmel
+
+def load_set_features(path, dtype):
+    if dtype:
+        filter = "mel"
+    else:
+        filter = "fft"
+    files = [y for x in os.walk(path) for y in glob.glob(os.path.join(x[0], '*_' + filter + '.npz'))]
+    set = []
+    for f in files:
+        data = np.load(f)
+        if dtype:
+            set.append(data['allmel'])
+        else:
+            set.append(data['allfft'])
+
+    return set
+
+def extract_fft(set_full):
+    set_fft = []
+    for c in set_full:
+        set_fft.append(c.item()['fft'])
+
+    return np.array(set_fft)
