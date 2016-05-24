@@ -7,18 +7,22 @@ import numpy as np
 from keras.utils.np_utils import to_categorical
 from mask_data_callback import Mask_Data_Callback 
 
+INPUT_SIZE  = 1024
+OUTPUT_SIZE = 2 * INPUT_SIZE
+SET_SIZE    = 1000
+
 # Generate dummy data
-clean = np.random.random((1000, 16))
-noise = 0.05 * np.random.random((1000, 16))
+clean = np.random.random((SET_SIZE, INPUT_SIZE))
+noise = 0.05 * np.random.random((SET_SIZE, INPUT_SIZE))
 
 noisy  = clean + noise
 target = np.append(clean, noise, axis=1)
 
 # Building the classifier
 model = Sequential()
-model.add(Dense(16, input_dim=16, activation='softmax'))
-model.add(Dense(32, activation='softmax'))
-model.add(Output_Layer(16, noisy))
+model.add(Dense(INPUT_SIZE, input_dim=INPUT_SIZE, activation='softmax'))
+model.add(Dense(OUTPUT_SIZE, activation='softmax'))
+model.add(Output_Layer(INPUT_SIZE, noisy))
 
 model.compile(optimizer='sgd', loss='mse')
 
