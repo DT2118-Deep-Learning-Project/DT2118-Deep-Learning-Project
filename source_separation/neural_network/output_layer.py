@@ -40,8 +40,7 @@ class Output_Layer(Layer):
 
         # Apply mask
         sft = shared(self.sfts[Mask_Data_Callback.idx])
-        print sft.shape
-        out = sft * mask1.flatten()
+        out = K.concatenate([sft * mask1.flatten(), sft * mask2.flatten()])
         return out
 
     def get_output_shape_for(self, input_shape):
