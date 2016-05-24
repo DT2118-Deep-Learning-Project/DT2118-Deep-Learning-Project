@@ -7,20 +7,21 @@ import numpy as np
 from keras.utils.np_utils import to_categorical
 from mask_data_callback import Mask_Data_Callback 
 
-# generate dummy data
-data = np.random.random((1000, 16))
-labels = data + 0.05 * np.random.random((1000, 16))
+# Generate dummy data
+clean = np.random.random((1000, 16))
+noise = 0.05 * np.random.random((1000, 16))
 
-# train the model, iterating on the data in batches
-# of 32 samples
+noisy  = clean + noise
+target = np.append(clean, noise, axis=1)
 
+# Building the classifier
 model = Sequential()
 model.add(Dense(16, input_dim=16, activation='softmax'))
 model.add(Dense(32, activation='softmax'))
-model.add(Output_Layer(16, data))
+model.add(Output_Layer(16, noisy))
 
-model.compile(optimizer='rmsprop',
-              loss='binary_crossentropy',
-              metrics=['accuracy'])
+model.compile(optimizer='sgd', loss='mse')
 
-model.fit(data, labels, nb_epoch=10, batch_size=1, callbacks=[Mask_Data_Callback()])
+print target.shape[0]
+mask_data = Mask_Data_Callback(target.shape[0])
+model.fit(noisy, target, nb_epoch=10, batch_size=1, callbacks=[mask_data])
