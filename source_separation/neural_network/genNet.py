@@ -7,7 +7,7 @@ import numpy as np
 from keras.models import Sequential, model_from_json
 from keras.layers import SimpleRNN, Dense
 from keras.utils.visualize_util import plot
-
+from loss_function import *
 
 def genRNN(insize, hidden_layer, outsize, timesteps):
     model = Sequential()
@@ -42,5 +42,14 @@ def load_data(data, n_prev = 3):
         docX.append(data[i:i+n_prev,:])
     return np.array(docX)
 
+insize = 2
+hidden_layer = 3
+outsize = 2
+timesteps = 3
+m = genRNN(insize, hidden_layer, outsize, timesteps)
+#printStructure(m)
 
-
+X,Y = genDumbData()
+X = load_data(X,3)
+m.compile(optimizer='rmsprop',loss='mse')
+#m.fit(X, Y[1:98], nb_epoch = 3,batch_size=1)
