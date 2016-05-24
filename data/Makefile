@@ -1,5 +1,5 @@
 all:
-	./generate_noisy_tidi.sh
+	./src/generate_noisy_tidi.sh
 
 clean:
 	rm -rf tidigits_noise/
