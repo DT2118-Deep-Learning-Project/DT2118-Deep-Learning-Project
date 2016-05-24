@@ -41,6 +41,10 @@ def load_feature(prefix, settype, filename):
     return allfft, allmel
 
 def load_set_features(path, dtype):
+    """
+    Load all the files npz of the given path.
+    The dtype allow to choose between fft (0)  or mel (1)
+    """
     if dtype:
         filter = "mel"
     else:
@@ -57,6 +61,12 @@ def load_set_features(path, dtype):
     return set
 
 def extract_fft(set_full):
+    """
+    input
+    List of numpy scalar dict with the fft and filename
+    return
+    Numpy array with only fft
+    """
     set_fft = []
     for c in set_full:
         set_fft.append(c.item()['fft'])
