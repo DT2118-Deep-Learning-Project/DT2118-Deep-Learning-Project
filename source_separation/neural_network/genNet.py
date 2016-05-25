@@ -23,15 +23,6 @@ def genRNN(insize, outsize, hidden_layer, timesteps):
 def printStructure(model, name='model'):
     plot(model, name + '.png', show_shapes = True)
     
-def save_model(model, name, overwrite = False):
-    json_string = model.to_json()
-    open(name + '.json', 'w').write(json_string)
-    model.save_weights(name + 'weights.h5', overwrite)
-    
-def load_model(name):
-    m = model_from_json(open(name + '.json').read())
-    m.load_weights(name + '_weights.h5')
-    return m
     
 def genDumbData():
     X = np.ones((100,2))
@@ -43,26 +34,6 @@ def prepare_data(data, n_prev = 3):
     for i in range(len(data)-n_prev):
         docX.append(data[i:i+n_prev,:])
     return np.array(docX)
-
-def load_data():
-    opath = '../../data/features/tidigits_'
-    listfolder = ['clean', 'noise', 'noisy']
-    allfft = []
-    allmel = []
-    for folder in listfolder:
-        path = opath + folder + '/' + 'train/'
-        print path
-        listwavfiles = [y for x in os.walk(path) for y in glob.glob(os.path.join(x[0], '*.npz'))]
-#        listwavfiles = os.listdir(path)
-        print len(listwavfiles)
-        for files in listwavfiles:
-            temp = np.load(files)
-            if (listwavfiles[-7:-4] == 'fft'):
-                allfft.append(temp)
-            else:
-                allmel.append(temp)   
-    return allfft, allmel
-     
      
 
 #insize = 1024
