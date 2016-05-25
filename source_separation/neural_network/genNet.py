@@ -4,20 +4,26 @@
 
 
 import numpy as np
-import os
-import glob
 from keras.models import Sequential, model_from_json
 from keras.layers import SimpleRNN, Dense
 from keras.utils.visualize_util import plot
 from loss_function import *
 
-def genRNN(insize, outsize, hidden_layer, timesteps):
+def rnn(insize, outsize, hidden_layer, timesteps):
     model = Sequential()
     model.add(SimpleRNN(outsize,input_shape=(timesteps, insize),return_sequences=True, activation='relu'))
     for i in range(hidden_layer):
         model.add(SimpleRNN(150, return_sequences=True, activation = 'relu'))
     model.add(SimpleRNN(outsize, return_sequences=False, activation = 'relu'))
     model.add(Dense(outsize))
+    return model
+    
+def dnn(insize = 512, ousize = 1024, hidden_size = [1024, 1024, 1024]):
+    model = Sequential()
+    model.add(Dense(hidden_size[0], input_dim=insize, init='uniform', activation = 'sigmoid'))
+    for i in range(1,len(hidden_size)):
+        model.add(Dense(hidden_size[i], init='uniform', activation = 'sigmoid'))
+    model.add(Dense(ousize, input_dim=insize, init='uniform', activation = 'sigmoid'))
     return model
     
 def printStructure(model, name='model'):
@@ -33,36 +39,11 @@ def load_model(name):
     m.load_weights(name + '_weights.h5')
     return m
     
-def genDumbData():
-    X = np.ones((100,2))
-    Y = np.ones(100)
-    return X, Y
-    
 def prepare_data(data, n_prev = 3):  
     docX = []
     for i in range(len(data)-n_prev):
         docX.append(data[i:i+n_prev,:])
     return np.array(docX)
-
-def load_data():
-    opath = '../../data/features/tidigits_'
-    listfolder = ['clean', 'noise', 'noisy']
-    allfft = []
-    allmel = []
-    for folder in listfolder:
-        path = opath + folder + '/' + 'train/'
-        print path
-        listwavfiles = [y for x in os.walk(path) for y in glob.glob(os.path.join(x[0], '*.npz'))]
-#        listwavfiles = os.listdir(path)
-        print len(listwavfiles)
-        for files in listwavfiles:
-            temp = np.load(files)
-            if (listwavfiles[-7:-4] == 'fft'):
-                allfft.append(temp)
-            else:
-                allmel.append(temp)   
-    return allfft, allmel
-     
      
 
 #insize = 1024
@@ -79,4 +60,3 @@ def load_data():
 #Y = Y.T
 #m.compile(optimizer='rmsprop',loss=source_separation_loss_function)
 #m.fit(X, Y, nb_epoch = 3,batch_size=1)
-X,Y = load_data()
