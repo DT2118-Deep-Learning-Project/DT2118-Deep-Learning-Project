@@ -31,7 +31,7 @@ def train_srs():
 
     # Train net
     print 'Training'
-    rnn.fit(X, Y, epochs=2)
+    rnn.fit(X, Y, nb_epoch=2)
 
     # Save net
     print 'Saving'
