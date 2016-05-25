@@ -13,12 +13,13 @@ def train_srs():
     X = sgf.extract_fft(sgf.load_set_features("../data/features/tidigits_noisy/train", 0), 1)
     clean = sgf.extract_fft(sgf.load_set_features("../data/features/tidigits_clean/train", 0), 1)
     noise = sgf.extract_fft(sgf.load_set_features("../data/features/tidigits_noise/train", 0), 1)
+    X = X[:setsize]
     Y = np.append(clean[:setsize], noise[:setsize], axis=0)
     # Create net
-    rnn = neural_network.RNN(INPUT_SIZE, 2, noisy, 2, loss=source_separation_loss_function)
+    rnn = neural_network.RNN(INPUT_SIZE, 2, X, 2, loss=source_separation_loss_function)
 
     # Train net
-    rnn.fit(X[:setsize], Y)
+    rnn.fit(X, Y)
 
     # Save net
     rnn.save()
