@@ -23,6 +23,22 @@ target= 'features'
 slash = '/'
 percent = 0.1
 
+def stft(x, fs, framesz=20, hop=10):
+     framesamp = int(framesz*fs)
+     hopsamp = int(hop*fs)
+     w = scipy.hanning(framesamp)
+     X = scipy.array([scipy.fft(w*x[i:i+framesamp])
+                      for i in range(0, len(x)-framesamp, hopsamp)])
+     return X
+ 
+def istft(X, fs, T, hop=10):
+     x = scipy.zeros(T*fs)
+     framesamp = X.shape[1]
+     hopsamp = int(hop*fs)
+     for n,i in enumerate(range(0, len(x)-framesamp, hopsamp)):
+         x[i:i+framesamp] += scipy.real(scipy.ifft(X[n]))
+     return x
+
 def extract(SoundPath):
     """
     Read a wav (nist format file included) and create the fft and mel on each window
@@ -31,10 +47,9 @@ def extract(SoundPath):
     return
     fft  and mel
     """
-    sndobj = sndio.read(SoundPath)
-    samples = np.array(sndobj[0])*np.iinfo(np.int16).max
-    fft = tools.fftCoef(samples)
-    return fft, tools.logMelSpectrum(fft, sndobj[1]) 
+    fs, samples = scipy.io.wavfile.load(SoundPath)
+    ft = stft(samples, fs)
+    return ft, tools.logMelSpectrum(ft, fs)
 
 def extractfolder(folder, settype):
     """

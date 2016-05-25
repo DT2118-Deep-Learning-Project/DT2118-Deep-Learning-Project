@@ -36,13 +36,16 @@ class RNN:
         model.add(Output_Layer(output_size, self.stfs))
         return model
 
-    def prepare_data(self, X_raw, y_raw, n_prev=2):  
+    def prepare_data(self, X_raw, y_raw=None, n_prev=2):  
         X = [] 
         for i in range(X_raw.shape[0] - n_prev + 1):
             X.append(X_raw[i:i+n_prev,:])
         X = np.array(X)
-        y = np.array(y_raw[n_prev - 1:])
-        return X,y
+        if y == None:
+            return X
+        else: 
+            y = np.array(y_raw[n_prev - 1:])
+            return X,y
         
     def fit(self, noisy, targets, nb_epoch=10, batch_size=1):
         X, y = self.prepare_data(noisy, targets)
