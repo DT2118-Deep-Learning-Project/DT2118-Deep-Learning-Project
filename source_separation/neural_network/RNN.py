@@ -1,7 +1,6 @@
 import numpy as np
 from keras.models import Sequential, model_from_json
 from keras.layers import SimpleRNN, Dense
-from keras.utils.visualize_util import plot
 from output_layer import Output_Layer
 from mask_data_callback import Mask_Data_Callback
 from loss_function import source_separation_loss_function
@@ -49,9 +48,6 @@ class RNN:
         mask_data = Mask_Data_Callback(self.stfs.shape[0])
         self.model.fit(X, y, nb_epoch=10, batch_size=1, callbacks=[mask_data])
 
-    def printStructure(name='model'):
-        plot(self.model, name + '.png', show_shapes = True)
-        
     def save(self, name, overwrite=False):
         json_string = self.model.to_json()
         open(name + '.json', 'w').write(json_string)
