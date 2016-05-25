@@ -1,27 +1,36 @@
 #!/usr/bin/python
 # source_separation.py
 # 
-import source_separation.gen_input.filefeatures as sgf
+import gen_input.filefeatures as sgf
 import numpy as np
-from source_separation.neural_network import *
+import neural_network.RNN
+import neural_network.loss_function
 
 setsize=10000
-INPUTSIZE=1024
 
 def train_srs():
     # Load train set    
+    print 'Loading files'
     X = sgf.extract_fft(sgf.load_set_features("../data/features/tidigits_noisy/train", 0), 1)
     clean = sgf.extract_fft(sgf.load_set_features("../data/features/tidigits_clean/train", 0), 1)
     noise = sgf.extract_fft(sgf.load_set_features("../data/features/tidigits_noise/train", 0), 1)
     X = X[:setsize]
-    Y = np.append(clean[:setsize], noise[:setsize], axis=0)
+    Y = np.append(clean[:setsize], noise[:setsize], axis=1)
+
+    print 'Data: ', X.shape, Y.shape
+
+    input_size = X.shape[1]
+
     # Create net
-    rnn = neural_network.RNN(INPUT_SIZE, 2, X, 2, loss=source_separation_loss_function)
+    print 'Building RNN'
+    rnn = neural_network.RNN.RNN(input_size, 2, X, 2, loss=neural_network.loss_function.source_separation_loss_function)
 
     # Train net
+    print 'Training'
     rnn.fit(X, Y)
 
     # Save net
+    print 'Saving'
     rnn.save()
     
     # Result
@@ -41,3 +50,6 @@ def test_srs():
     # Save output result
 
     # Result
+
+print 'Train srs'
+train_srs()
