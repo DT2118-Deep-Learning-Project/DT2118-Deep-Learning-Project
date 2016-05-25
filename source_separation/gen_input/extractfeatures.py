@@ -10,6 +10,7 @@ import tools
 import sys
 from pysndfile import sndio
 import filefeatures as ff
+import scipy.io.wavfile
 
 import glob
 import os
@@ -23,7 +24,7 @@ target= 'features'
 slash = '/'
 percent = 0.1
 
-def stft(x, fs, framesz=20, hop=10):
+def stft(x, fs, framesz=0.0256, hop=0.010):
      framesamp = int(framesz*fs)
      hopsamp = int(hop*fs)
      w = scipy.hanning(framesamp)
@@ -31,7 +32,7 @@ def stft(x, fs, framesz=20, hop=10):
                       for i in range(0, len(x)-framesamp, hopsamp)])
      return X
  
-def istft(X, fs, T, hop=10):
+def istft(X, fs, T, hop=0.010):
      x = scipy.zeros(T*fs)
      framesamp = X.shape[1]
      hopsamp = int(hop*fs)
@@ -47,9 +48,9 @@ def extract(SoundPath):
     return
     fft  and mel
     """
-    fs, samples = scipy.io.wavfile.load(SoundPath)
+    fs, samples = scipy.io.wavfile.read(SoundPath)
     ft = stft(samples, fs)
-    return ft, tools.logMelSpectrum(ft, fs)
+    return ft
 
 def extractfolder(folder, settype):
     """
@@ -69,12 +70,9 @@ def extractfolder(folder, settype):
         filename = os.path.basename(filepath)
         filename = filename[0:-4] # Remove .wav
         print(str(i)+"/"+str(total)+ " samples")
-        fft, mel = extract(filepath)
-        allfft = {"filename": filename,
-                     "fft": fft}
-        allmel = {"filename": filename,
-                     "fft": mel}
-        ff.save_feature(prefix + target + slash + folder + slash + settype + slash + filename, allfft, allmel)
+        fft = extract(filepath)
+        allfft = {"filename": filename, "fft": fft}
+        ff.save_feature(prefix + target + slash + folder + slash + settype + slash + filename, allfft)
         if i > total:
             break
 

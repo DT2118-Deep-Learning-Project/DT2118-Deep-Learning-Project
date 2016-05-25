@@ -11,7 +11,7 @@ import numpy as np
 import os
 import glob
 
-def save_feature(folder, allfft, allmel):
+def save_feature(folder, allfft):
     """ 
     Save the features on the disk.
     folder: place to save them
@@ -19,7 +19,6 @@ def save_feature(folder, allfft, allmel):
     allmel: mel features to save
     """
     np.savez(folder + '_fft.npz', allfft=allfft)
-    np.savez(folder + '_mel.npz', allmel=allmel)
 
 def load_feature(prefix, settype, filename):
     """
