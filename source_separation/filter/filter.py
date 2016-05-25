@@ -2,7 +2,7 @@
 # filter.py
 # Function for applying a mask on a stft for splitting it in two parts
 import numpy as np
-import separation as sp
+from source_separation.bss_eval import separation as sp
 
 def apply_filter( mix, mask_1, mask_2 ):
     """

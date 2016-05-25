@@ -4,8 +4,8 @@
 
 
 def train_srs():
-    # Load train set
-    
+    # Load train set    
+    X = 1
     # Create net
 
     # Train net
@@ -17,7 +17,7 @@ def train_srs():
 
 def test_srs():
     # Load test set
-
+    X = 2
     # Load net
 
     # Test net
