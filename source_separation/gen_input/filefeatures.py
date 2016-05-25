@@ -60,10 +60,11 @@ def load_set_features(path, dtype):
 
     return set
 
-def extract_fft(set_full):
+def extract_fft(set_full, concatenate):
     """
     input
     List of numpy scalar dict with the fft and filename
+    If concatenate (1) then all the fft are concatenate in one matrix else separated for each sample
     return
     Numpy array with only fft
     """
@@ -71,4 +72,12 @@ def extract_fft(set_full):
     for c in set_full:
         set_fft.append(c.item()['fft'])
 
+    if concatenate:
+        tmp = []
+        for s in set_fft:
+            for fft in s:
+                tmp.append(fft)
+        set_fft = tmp
+
     return np.array(set_fft)
+
