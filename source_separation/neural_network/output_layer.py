@@ -34,8 +34,8 @@ class Output_Layer(Layer):
         # Compute mask
         y1, y2 = T.split(K.transpose(y), [self.output_dim, self.output_dim], 2, axis=0)
 
-        mask1 = K.abs(y1) / (K.abs(y1) + K.abs(y2) + 0.0001)
-        mask2 = K.abs(y2) / (K.abs(y1) + K.abs(y2) + 0.0001)
+        mask1 = K.abs(y1) / (K.abs(y1) + K.abs(y2) + 1)
+        mask2 = K.abs(y2) / (K.abs(y1) + K.abs(y2) + 1)
         mask = K.concatenate([mask1, mask2])
 
         # Apply mask
