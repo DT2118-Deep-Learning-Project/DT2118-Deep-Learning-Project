@@ -1,31 +1,4 @@
 >>> Skeleton
-1. Source separation
-
-2. Benchmark
-
-3. Digits recognition (GMM-HMM)
-- Original one
-- Retrieval one (Optional)
-- Noisy one ( Check )
-
-4. Compare
-
-5. Conclude
-
-6. Go further ( Optional )
-- Other driven parameters
-- Other methods
-- Better recognition
-
->>> Introduction
-Source separation for improving ASR by removing noise
-
->>> Datasets
-- # Noises
-- # Tidigits (1-? digits)
-- Simple/Mix Noises
-- Loop/Straight Noise
-
 - #Total
 - Training - CrossVal - Test
 
@@ -34,8 +7,6 @@ Source separation for improving ASR by removing noise
 -> Simple (Core Layers)
 -> CNN (Simple / Pooling ??)
 -> RNN (Simple RNN)
-http://keras.io/layers/recurrent/#simplernn
--> AutoEncoder
 
 >> Parameters
 - #Hidden Layers
@@ -46,24 +17,11 @@ http://keras.io/layers/recurrent/#simplernn
 - LogMel (Ref paper) (Optional)
 
 >> Activation function
-http://keras.io/activations/
-http://keras.io/layers/advanced-activations
 - ReLu
 - Sigmoid
 - ELU (Advanced activation - Exponential Linear Units) (Optional)
 
->> Type de Mask
-- Binary
-- Soft (Optional)
-
 >> Regularization - Momentum - Learning Rate - Epochs
-
->> Cost Function
-- LMS (Least Mean Square)
-- CS (Cross Entropy Mean) (Optional)
-
->> Use context ??
-
 
 >>> Results
 - SDR

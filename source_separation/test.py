@@ -8,6 +8,9 @@ import neural_network.loss_function
 
 setsize=10
 prefix="../data/"
+hidden_layer = 2
+nodes = 150
+activation='relu'
 
 def train_srs():
     # Load train set    
@@ -27,8 +30,8 @@ def train_srs():
 
     # Create net
     print 'Building RNN'
-    rnn = neural_network.RNN.RNN(input_size, 2, X, 2, 
-            loss=neural_network.loss_function.source_separation_loss_function)
+    rnn = neural_network.RNN.RNN(input_size, hidden_layer, nodes, X, 2,
+            loss=neural_network.loss_function.source_separation_loss_function, activation=activation)
 
     # Train net
     print 'Training'

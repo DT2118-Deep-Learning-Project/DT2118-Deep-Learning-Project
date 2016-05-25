@@ -6,13 +6,14 @@ from mask_data_callback import Mask_Data_Callback
 from loss_function import source_separation_loss_function
 
 class RNN:
-    def __init__(self, input_size, hidden_layer, stfs, timesteps,
-                 optimizer='sgd', loss='mse'):
+    def __init__(self, input_size, hidden_layer, nodes_hl, stfs, timesteps,
+                 optimizer='sgd', loss='mse', activation='relu'):
         self.stfs = stfs
-        self.model = self.build(input_size, hidden_layer, timesteps)
+        self.model = self.build(input_size, hidden_layer, nodes_hl, timesteps, activation)
         self.model.compile(optimizer=optimizer, loss=loss)
+        self.name = "model_rnn_" + activation + "_" + str(hidden_layer) + "_" + str(nodes_hl)
 
-    def build(self, input_size, hidden_layer, timesteps):
+    def build(self, input_size, hidden_layer, nodes_hl, timesteps, activation):
         '''
             The Recurrent Neural Network from the Monaural Speech
             Recognition paper
@@ -26,12 +27,12 @@ class RNN:
 
         model = Sequential()
         model.add(SimpleRNN(output_size, input_shape=(timesteps, input_size),
-                return_sequences=True, activation='relu'))
+                return_sequences=True, activation=activation))
 
         for i in range(hidden_layer):
-            model.add(SimpleRNN(150, return_sequences=True, activation = 'relu'))
+            model.add(SimpleRNN(nodes_hl, return_sequences=True, activation=activation))
 
-        model.add(SimpleRNN(2 * output_size, return_sequences=False, activation = 'relu'))
+        model.add(SimpleRNN(2 * output_size, return_sequences=False, activation=activation))
         model.add(Output_Layer(output_size, self.stfs))
         return model
 
@@ -50,8 +51,8 @@ class RNN:
 
     def save(self, name='model', overwrite=False):
         json_string = self.model.to_json()
-        open(name + '.json', 'w').write(json_string)
-        self.model.save_weights(name + 'weights.h5', overwrite)
+        open(self.name + '.json', 'w').write(json_string)
+        self.model.save_weights(self.name + '_weights.h5', overwrite)
 
     def evaluate(self, x, y):
         return self.model.evaluate(x, y)
