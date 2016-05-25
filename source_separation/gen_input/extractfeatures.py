@@ -50,7 +50,7 @@ def extract(SoundPath):
     """
     fs, samples = scipy.io.wavfile.read(SoundPath)
     ft = stft(samples, fs)
-    return ft
+    return np.int16(ft)
 
 def extractfolder(folder, settype):
     """
