@@ -52,7 +52,7 @@ class RNN:
     def printStructure(name='model'):
         plot(self.model, name + '.png', show_shapes = True)
         
-    def save_model(self, name, overwrite = False):
+    def save(self, name, overwrite=False):
         json_string = self.model.to_json()
         open(name + '.json', 'w').write(json_string)
         self.model.save_weights(name + 'weights.h5', overwrite)

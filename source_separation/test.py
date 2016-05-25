@@ -1,18 +1,20 @@
 #!/usr/bin/python
-# source_separation.py
-# 
-
 
 def train_srs():
     # Load train set    
-    X = 1
+
+
     # Create net
+    rnn = neural_network.RNN(INPUT_SIZE, 2, noisy, 2, loss=source_separation_loss_function)
 
     # Train net
+    rnn.fit(noisy, target)
 
     # Save net
+    rnn.save()
     
     # Result
+    print 'LOL'
 
 
 def test_srs():
