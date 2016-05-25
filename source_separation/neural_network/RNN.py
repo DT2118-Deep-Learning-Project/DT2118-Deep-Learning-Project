@@ -48,7 +48,7 @@ class RNN:
         mask_data = Mask_Data_Callback(self.stfs.shape[0])
         self.model.fit(X, y, nb_epoch=nb_epoch, batch_size=1, callbacks=[mask_data])
 
-    def save(self, name, overwrite=False):
+    def save(self, name='model', overwrite=False):
         json_string = self.model.to_json()
         open(name + '.json', 'w').write(json_string)
         self.model.save_weights(name + 'weights.h5', overwrite)

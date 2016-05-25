@@ -6,8 +6,8 @@ import numpy as np
 import neural_network.RNN
 import neural_network.loss_function
 
-setsize=10000
-prefix="../../"
+setsize=10
+prefix="../data/"
 
 def train_srs():
     # Load train set    
@@ -27,7 +27,8 @@ def train_srs():
 
     # Create net
     print 'Building RNN'
-    rnn = neural_network.RNN.RNN(input_size, 2, X, 2, loss=neural_network.loss_function.source_separation_loss_function)
+    rnn = neural_network.RNN.RNN(input_size, 2, X, 2, 
+            loss=neural_network.loss_function.source_separation_loss_function)
 
     # Train net
     print 'Training'
