@@ -15,8 +15,11 @@ def train_srs():
     clean = sgf.extract_fft(sgf.load_set_features("../data/features/tidigits_clean/train", 0), 1)
     noise = sgf.extract_fft(sgf.load_set_features("../data/features/tidigits_noise/train", 0), 1)
     X = X[:setsize]
-    X = X / np.amax(X)
     Y = np.append(clean[:setsize], noise[:setsize], axis=1)
+
+    scale = np.mean(Y)
+    Y = Y / scale
+    X = X / scale
 
     input_size = X.shape[1]
 
