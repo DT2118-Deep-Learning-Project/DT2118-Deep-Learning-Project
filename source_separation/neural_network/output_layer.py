@@ -34,13 +34,13 @@ class Output_Layer(Layer):
         # Compute mask
         y1, y2 = T.split(K.transpose(y), [self.output_dim, self.output_dim], 2, axis=0)
 
-        mask1 = K.abs(y1) / (K.abs(y1) + K.abs(y2))
-        mask2 = K.abs(y2) / (K.abs(y1) + K.abs(y2))
+        mask1 = K.abs(y1) / (K.abs(y1) + K.abs(y2) + 0.0001)
+        mask2 = K.abs(y2) / (K.abs(y1) + K.abs(y2) + 0.0001)
         mask = K.concatenate([mask1, mask2])
 
         # Apply mask
         sft = shared(self.sfts[Mask_Data_Callback.idx])
-        out = K.concatenate([sft * mask1.flatten(), sft * mask2.flatten()])
+        out = K.concatenate([sft * K.transpose(mask1), sft * K.transpose(mask2)])
         return out
 
     def get_output_shape_for(self, input_shape):

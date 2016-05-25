@@ -4,7 +4,7 @@ from keras.layers import SimpleRNN, Dense
 from keras.utils.visualize_util import plot
 from output_layer import Output_Layer
 from mask_data_callback import Mask_Data_Callback
-from loss_function import *
+from loss_function import source_separation_loss_function
 
 class RNN:
     def __init__(self, input_size, hidden_layer, stfs, timesteps,
@@ -42,7 +42,6 @@ class RNN:
             X.append(X_raw[i:i+n_prev,:])
         X = np.array(X)
         y = np.array(y_raw[n_prev - 1:])
-        print X.shape, y.shape
         return X,y
         
     def fit(self, noisy, targets, nb_epoch=10, batch_size=1):
@@ -65,9 +64,9 @@ if __name__ == '__main__':
     SET_SIZE    = 1000
 
     clean = np.random.random((SET_SIZE, INPUT_SIZE))
-    noise = 0.05 * np.random.random((SET_SIZE, INPUT_SIZE))
+    noise = 0.10 * np.random.random((SET_SIZE, INPUT_SIZE))
     noisy  = clean + noise
     target = np.append(clean, noise, axis=1)
 
-    rnn = RNN(INPUT_SIZE, 2, noisy, 2)
+    rnn = RNN(INPUT_SIZE, 2, noisy, 2, loss=source_separation_loss_function)
     rnn.fit(noisy, target)
