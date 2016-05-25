@@ -57,6 +57,12 @@ class RNN:
         open(name + '.json', 'w').write(json_string)
         self.model.save_weights(name + 'weights.h5', overwrite)
 
+    def evaluate(self, x, y):
+        return self.model.evaluate(x, y)
+
+    def predict(self, x, y):
+        return self.model.predict(x, y)
+
 if __name__ == '__main__':
     # Dummy data
     INPUT_SIZE  = 1024
