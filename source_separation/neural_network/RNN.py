@@ -41,7 +41,7 @@ class RNN:
         for i in range(X_raw.shape[0] - n_prev + 1):
             X.append(X_raw[i:i+n_prev,:])
         X = np.array(X)
-        if y == None:
+        if y_raw == None:
             return X
         else: 
             y = np.array(y_raw[n_prev - 1:])
