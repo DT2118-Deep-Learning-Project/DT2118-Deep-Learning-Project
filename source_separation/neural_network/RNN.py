@@ -41,7 +41,7 @@ class RNN:
         for i in range(X_raw.shape[0] - n_prev + 1):
             X.append(X_raw[i:i+n_prev,:])
         X = np.array(X)
-        if y_raw == None:
+        if y_raw is None:
             return X
         else: 
             y = np.array(y_raw[n_prev - 1:])
@@ -60,8 +60,8 @@ class RNN:
     def evaluate(self, x, y):
         return self.model.evaluate(x, y)
 
-    def predict(self, x, y):
-        return self.model.predict(x, y)
+    def predict(self, x):
+        return self.model.predict(x)
 
 if __name__ == '__main__':
     # Dummy data
