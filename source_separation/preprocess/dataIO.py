@@ -21,7 +21,8 @@ def extractAllFFTfromWAV(src_path, destination, percent=0.05):
     data_type  = ['train', 'test']
 
     # Set up directories, removing first if data already exists
-    shutil.rmtree(destination)
+    if(os.path.exists(destination)):
+        shutil.rmtree(destination)
     createdir(destination)
 
     # Going through all the subfolders (clean/train, clean/test, noise/train...)
