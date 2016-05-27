@@ -36,7 +36,6 @@ def train_srs():
 def test_srs(rnn):
     # Load test set
     print 'Loading files'
-    mergeFiles = True
     X, Y = dataIO.test_set()
 
 
