@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     This file can load WAV files, convert samples to STFT / FFT,
     and writes features data to be later used again
@@ -51,6 +52,5 @@ def writeFFT(path, filename, stft_data):
     """
         Save STFTs into a .npz file
     """
-    allfft = {"filename": filename, "fft": stft_data}
-    np.savez(path + '/' + filename + '_fft.npz', allfft=allfft)
+    np.savez(path + '/' + filename + '_fft.npz', filename=filename, fft=stft_data)
 
