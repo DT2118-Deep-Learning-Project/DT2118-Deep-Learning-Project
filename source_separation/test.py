@@ -20,6 +20,11 @@ def train_srs():
     print 'Loading files'
     X, Y = dataIO.train_set(setsize)
 
+
+    scale = (np.mean(Y) + np.mean(X)) / 2
+    Y = Y / scale
+    X = X / scale
+
     # Create net
     print 'Building RNN'
     rnn = RNN.RNN(512, hidden_layer, nodes, X, 2,
