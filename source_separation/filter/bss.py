@@ -1,6 +1,7 @@
 #!/usr/bin/python
-# filter.py
-# Function for applying a mask on a stft for splitting it in two parts
+"""
+    Compute the bss results between two sources
+"""
 import numpy as np
 from source_separation.bss_eval import separation as sp
 

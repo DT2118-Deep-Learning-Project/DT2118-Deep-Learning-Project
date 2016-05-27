@@ -1,6 +1,6 @@
 #!/usr/bin/python
 """
-Functions for dealing with wav files
+Functions for reading/writing with wav files
 """
 
 import os
