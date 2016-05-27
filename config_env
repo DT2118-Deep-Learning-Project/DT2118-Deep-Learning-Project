@@ -1,0 +1,2 @@
+export SPEECH_PROJ_DIR=$(git rev-parse --show-toplevel)
+export PYTHONPATH=$PYTHONPATH:$SPEECH_PROJ_DIR
