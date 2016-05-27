@@ -1,8 +1,6 @@
 *.swp
 *.swo
 *.pyc
-data/tidigits*
-data/noisy
-data/clean
-data/noise
+data/tidigits
 data/features
+data/wav

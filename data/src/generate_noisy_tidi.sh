@@ -2,9 +2,9 @@
 
 dir_raw_train=tidigits/disc_4.1.1/tidigits
 dir_raw_test=tidigits/disc_4.2.1/tidigits
-dir_clean=tidigits_clean
-dir_noise=tidigits_noise
-dir_noisy=tidigits_noisy
+dir_clean=wav/tidigits_clean
+dir_noise=wav/tidigits_noise
+dir_noisy=wav/tidigits_noisy
 
 # Takes one parameter: the sphere file to noisify
 noisify() {
