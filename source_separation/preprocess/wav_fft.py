@@ -7,7 +7,7 @@ import scipy.io.wavfile
 import numpy as np
 
 FRAMESZ = 0.0256 # window length in ms
-HOP     = 0.010 # window interval in ms
+HOP     = 0.0128 # window interval in ms
 FS      = 20000 # sample rate
 
 def stft(x, fs, framesz=FRAMESZ, hop=HOP):
@@ -15,16 +15,16 @@ def stft(x, fs, framesz=FRAMESZ, hop=HOP):
     hopsamp = int(hop*fs)
     w = scipy.hanning(framesamp)
     X = scipy.array([scipy.fft(w*x[i:i+framesamp])
-                     for i in range(0, len(x)-framesamp, hopsamp)])
-    return X
+        for i in range(0, len(x)-framesamp, hopsamp)]) # We lose framesamp samples... 
+    return np.complex64(X) # reduce precision from complex 128
  
-def istft(X, fs, T, hop=HOP):
-    x = scipy.zeros(T*fs)
-    framesamp = X.shape[1]
+def istft(X, fs, hop=HOP):
+    nbrsamp, framesamp = X.shape
+    x = scipy.zeros(nbrsamp*framesamp*hop/FRAMESZ)
     hopsamp = int(hop*fs)
     for n,i in enumerate(range(0, len(x)-framesamp, hopsamp)):
         x[i:i+framesamp] += scipy.real(scipy.ifft(X[n]))
-    return np.int16(x)
+    return np.int32(x)
 
 def readFFT(SoundPath):
     """
@@ -36,7 +36,7 @@ def readFFT(SoundPath):
     """
     fs, samples = scipy.io.wavfile.read(SoundPath)
     ft = stft(samples, fs, FRAMESZ, HOP)
-    return np.int16(ft)
+    return ft
 
 def writeWAV(path, stft_data):
     """
@@ -44,7 +44,7 @@ def writeWAV(path, stft_data):
     """
     T = stft_data.shape[0] * HOP
     print T
-    samples = istft(stft_data, FS, T, HOP)
+    samples = istft(stft_data, FS, HOP)
     print samples.shape
     scipy.io.wavfile.write(path, FS, samples)
 
