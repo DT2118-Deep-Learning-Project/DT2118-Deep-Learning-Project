@@ -61,8 +61,8 @@ class RNN:
       #m = model_from_json(open(name + '.json').read())
       self.model.load_weights(path)
 
-    def evaluate(self, x, y):
-        return self.model.evaluate(x, y)
+    def evaluate(self, x, y, batch_size=1):
+        return self.model.evaluate(x, y, batch_size=batch_size)
 
     def predict(self, x, batch_size=1):
         return self.model.predict(x,batch_size=batch_size)

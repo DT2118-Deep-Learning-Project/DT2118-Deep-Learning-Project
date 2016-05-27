@@ -3,7 +3,7 @@
     Compute the bss results between two sources
 """
 import numpy as np
-from source_separation.bss_eval import separation as sp
+from bss_eval import separation as sp
 
 def get_bss_result(s1, s2, es1, es2):
     """

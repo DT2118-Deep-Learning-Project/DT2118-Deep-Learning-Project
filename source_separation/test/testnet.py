@@ -3,15 +3,15 @@
 import numpy as np
 import source_separation.neural_network.RNN
 import source_separation.neural_network.loss_function
-import filter as fi
+import bss 
 import fileaudio as fa
 
-def retrievenn(path, hidden_layer, nodes, activation, input_size=512):
+def retrievenn(path, hidden_layer, nodes, activation, X, input_size=512):
     """
     Initiate a NN and load the weights at the end of the training
     path: point to the file where the weights are saved
     """
-    rnn = source_separation.neural_network.RNN.RNN(input_size, hidden_layer, nodes, np.zeros((2, 512)), 2,
+    rnn = source_separation.neural_network.RNN.RNN(input_size, hidden_layer, nodes, X, 2,
        loss=source_separation.neural_network.loss_function.source_separation_loss_function, activation=activation)
 
     rnn.load_weight(path)
@@ -29,7 +29,7 @@ def getresult(rnn, noisy_fft, clean_wav, noise_wav, name):
     #pred_noise_wav = pred_noise_fft
 
     # Compute bss
-    sdr, sir, sar = fi.filter.get_bss_result(clean_wav, noise_wav, pred_clean_wav, pred_noise_wav)
+    sdr, sir, sar = bss.filter.get_bss_result(clean_wav, noise_wav, pred_clean_wav, pred_noise_wav)
 
     # Print bss
     print("SDR: " + str(sdr) + "\n"
