@@ -26,7 +26,7 @@ class RNN:
         output_size = self.stfs.shape[1]
 
         model = Sequential()
-        model.add(SimpleRNN(output_size, input_shape=(timesteps, input_size),
+        model.add(SimpleRNN(nodes_hl, input_shape=(timesteps, input_size),
                 return_sequences=True, activation=activation))
 
         for i in range(hidden_layer):
@@ -57,11 +57,15 @@ class RNN:
         open(self.name + '.json', 'w').write(json_string)
         self.model.save_weights(self.name + '_weights.h5', overwrite)
 
+    def load_weight(self, path):
+      #m = model_from_json(open(name + '.json').read())
+      self.model.load_weights(path)
+
     def evaluate(self, x, y):
         return self.model.evaluate(x, y)
 
-    def predict(self, x):
-        return self.model.predict(x)
+    def predict(self, x, batch_size=1):
+        return self.model.predict(x,batch_size=batch_size)
 
 if __name__ == '__main__':
     # Dummy data
