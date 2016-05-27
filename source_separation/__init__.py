@@ -3,6 +3,5 @@
 
 # Import all submodules 
 import test
-import gen_input
 import neural_network
 import preprocess

@@ -81,5 +81,5 @@ if __name__ == '__main__':
     print target.shape
     print noisy.shape
 
-    rnn = RNN(INPUT_SIZE, 2, noisy, 2, loss=source_separation_loss_function)
+    rnn = RNN(INPUT_SIZE, 2, 150, noisy, 2, loss=source_separation_loss_function)
     rnn.fit(noisy, target)

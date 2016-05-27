@@ -3,12 +3,14 @@
 # source_separation.py
 # 
 import numpy as np
-import neural_network.RNN
+import os
+import neural_network.RNN as RNN
 import neural_network.loss_function
 from preprocess import dataIO
 
-setsize = 4 # Number of tidigits to take in the set, choose 0 to take all of them
-prefix = "../data/"
+setsize = 10 # Number of tidigits to take in the set, choose 0 to take all of them
+nb_epoch=10
+prefix = os.environ['SPEECH_PROJ_DIR']+"/data/"
 hidden_layer = 2
 nodes = 150
 activation='relu'
@@ -20,25 +22,22 @@ def train_srs():
 
     # Create net
     print 'Building RNN'
-    rnn = neural_network.RNN.RNN(input_size, hidden_layer, nodes, X, 2,
+    rnn = RNN.RNN(512, hidden_layer, nodes, X, 2,
             loss=neural_network.loss_function.source_separation_loss_function, activation=activation)
 
     # Train net
     print 'Training'
-    rnn.fit(X, Y, nb_epoch=2)
+    rnn.fit(X, Y, nb_epoch=nb_epoch)
 
     # Save net
     print 'Saving'
     rnn.save()
     return rnn
 
-
 def test_srs(rnn):
     # Load test set
     print 'Loading files'
     X, Y = dataIO.test_set()
-
-
 
     # Load net
 
@@ -47,3 +46,6 @@ def test_srs(rnn):
 
     return score
 
+# Run a train if used as a script
+if __name__ == '__main__':
+    train_srs()
