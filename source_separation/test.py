@@ -7,8 +7,8 @@ import neural_network.RNN
 import neural_network.loss_function
 from preprocess import dataIO
 
-setsize=4 # Number of tidigits to take in the set
-prefix="../data/"
+setsize = 4 # Number of tidigits to take in the set, choose 0 to take all of them
+prefix = "../data/"
 hidden_layer = 2
 nodes = 150
 activation='relu'
@@ -30,22 +30,21 @@ def train_srs():
     # Save net
     print 'Saving'
     rnn.save()
-    
-    # Result
-    print 'LOL'
     return rnn
 
 
-def test_srs():
+def test_srs(rnn):
     # Load test set
     print 'Loading files'
+    mergeFiles = True
     X, Y = dataIO.test_set()
+
+
 
     # Load net
 
     # Test net
+    score = rnn.evaluate(X, Y)
 
-    # Save output result
-
-    # Result
+    return score
 

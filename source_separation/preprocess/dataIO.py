@@ -2,8 +2,9 @@
 import os
 import glob
 import shutil
-from wav_fft import readFFT, writeFFT
+from wav_fft import readFFT, writeFFT, writeWAV
 import numpy as np
+import random
 
 def createdir(directory):
     if not os.path.exists(directory):
@@ -83,19 +84,23 @@ def loadFFTfromFiles(src_path):
 
     return STFTs['clean'], STFTs['noise'], STFTs['noisy']
 
-def saveAllFFTtoWAV(stft_data, destination):
+def saveFFTlistToWAVs(stft_data, destination):
     """
-        Convert & save the STFTs into wav files in the destination directory
-    """
-    print "WIP...."
-    createdir(destination)
+        Convert & save each STFTs into a wav files in the destination directory
+        Names are just the index in the list + '.wav'
 
-def set(set_type, setsize=0):
+        :param stft_data: list of numpy arrays of size (N_frames, STFT_length)
+    """
+    createdir(destination)
+    for i, stft in enumerate(stft_data):
+        writeWAV(destination + '/' + str(i) + '.wav', stft_data)
+
+def train_set(setsize=0):
     '''
-        Return either train or test set according the the set_type parameter
+        Return train set, cropped to setsize, or the whole set if setsize == 0 
     '''
     clean, noise, noisy = loadFFTfromFiles('../data/features')
-    clean, noise, noisy = clean[set_type], noise[set_type], noisy[set_type]
+    clean, noise, noisy = clean['train'], noise['train'], noisy['train']
 
     if setsize == 0:
         setsize = len(noisy)
@@ -118,8 +123,27 @@ def set(set_type, setsize=0):
 
     return X, Y
 
-def train_set(setsize=0):
-    return set('train', setsize)
-
 def test_set(setsize=0):
-    return set('test', setsize)
+    '''
+        Return the test_set as a list of noisy & clean FFT
+        The return values X, Y are 2 lists. Each element contains the
+        STFTs for one file.
+
+        So note that the STFTs are not put into one big 2D array 
+        as they are for the train set.
+    '''
+    clean, noise, noisy = loadFFTfromFiles('../data/features')
+    clean, noise, noisy = clean['test'], noise['test'], noisy['test']
+
+    if setsize == 0:
+        setsize = len(noisy)
+
+    X = noisy[:setsize]
+    
+    Y = []
+    for z in zip(clean[:setsize], noise[:setsize]):
+        Y.append(np.reshape(
+            np.dstack((z[0], z[1])),
+            (z[0].shape[0], z[0].shape[1] * 2)))
+
+    return X, Y

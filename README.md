@@ -19,4 +19,8 @@ Xtrain, Ytrain = dataIO.train_set()
 Xtest, Ytest   = dataIO.test_set()
 ```
 
+Note that the `train_set()` function returns one big 2D array of all the STFT from all the files concatenated. 
+
+But the `test_set()` returns a list, for which each element contains the STFT for one WAV file. 
+This enables to test the network only on a few files.
 
