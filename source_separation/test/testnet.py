@@ -1,21 +1,33 @@
 #!/usr/bin/python
 
 import numpy as np
-import source_separation.neural_network.RNN
+import source_separation.neural_network.RNN as RNN
+import source_separation.neural_network.DNN as DNN
 import source_separation.neural_network.loss_function
 import bss 
 import fileaudio as fa
 
-def retrievenn(path, hidden_layer, nodes, activation, X, input_size=512):
+def retrievernn(path, hidden_layer, nodes, activation, X, input_size=512):
     """
-    Initiate a NN and load the weights at the end of the training
+    Initiate a RNN and load the weights at the end of the training
     path: point to the file where the weights are saved
     """
-    rnn = source_separation.neural_network.RNN.RNN(input_size, hidden_layer, nodes, X, 2,
+    rnn = RNN.RNN(input_size, hidden_layer, nodes, X, 2,
        loss=source_separation.neural_network.loss_function.source_separation_loss_function, activation=activation)
 
     rnn.load_weight(path)
     return rnn
+
+def retrievednn(path, hidden_layer, nodes, activation, X, input_size=512):
+    """
+    Initiate a DNN and load the weights at the end of the training
+    path: point to the file where the weights are saved
+    """
+    dnn = DNN.DNN(input_size, hidden_layer, nodes, X,
+       loss=source_separation.neural_network.loss_function.source_separation_loss_function, activation=activation)
+
+    dnn.load_weight(path)
+    return dnn
 
 def getresult(rnn, noisy_fft, clean_wav, noise_wav, name):
     # Coupute source separation
