@@ -9,11 +9,11 @@ import neural_network.DNN as DNN
 import neural_network.loss_function
 from preprocess import dataIO
 
-setsize = 15 # Number of tidigits to take in the set, choose 0 to take all of them
-nb_epoch=5
+setsize = 30# Number of tidigits to take in the set, choose 0 to take all of them
+nb_epoch=3
 prefix = os.environ['SPEECH_PROJ_DIR']+"/data/"
-hidden_layer = 2
-nodes = 150
+hidden_layer = 4
+nodes = 450
 activation='relu'
 
 def train_srs():
@@ -36,7 +36,7 @@ def train_srs():
 
     # Train net
     print 'Training'
-    rnn.fit(X, Y, nb_epoch=nb_epoch)
+    rnn.fit(X, Y, nb_epoch=nb_epoch, batch_size=100)
 
     # Save net
     print 'Saving'
