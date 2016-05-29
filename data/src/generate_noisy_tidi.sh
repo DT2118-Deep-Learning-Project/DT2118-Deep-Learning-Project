@@ -19,12 +19,13 @@ noisify() {
     mkdir -p $dir_noisy/$destination/
 
     # Generate noise
-    sox -n -r 20000 $dir_noise/$destination/$filename synth $duration whitenoise vol 0.02
+    sox -n -r 20000 $dir_noise/$destination/${filename} synth $duration whitenoise vol 0.02
+    #sox -v 0.99 $dir_noise/$destination/${filename}_.wav -b 16 -r 20000 $dir_noise/$destination/$filename
     # Copy clean data
     sox -t sph $path/$filename -b 16 -t wav $dir_clean/$destination/$filename
     ## Mix noise + clean
     sox -m $dir_noise/$destination/$filename $dir_clean/$destination/$filename \
-        $dir_noisy/$destination/$filename gain -n
+        $dir_noisy/$destination/$filename
 }
 
 lookFolder() {
@@ -47,7 +48,5 @@ rm -rf $dir_noise
 rm -rf $dir_noisy
 
 lookFolder train/man $dir_raw_train
-lookFolder train/woman $dir_raw_train
 lookFolder test/man $dir_raw_test
-lookFolder test/woman $dir_raw_test
 
