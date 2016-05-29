@@ -20,7 +20,7 @@ def extractAllFFTfromWAV(src_path, destination, percent=0.05):
     sound_type = ['clean', 'noise', 'noisy']
     data_type  = ['train', 'test']
 
-    # Set up directories, removing first if data already exists
+    # Set up directories, removing first if data already exists
     if(os.path.exists(destination)):
         shutil.rmtree(destination)
     createdir(destination)
@@ -107,7 +107,7 @@ def train_set(setsize=0):
         setsize = len(noisy)
 
     X = []
-    # Let's build a big 2D array with all the frames
+    # Let's build a big 2D array with all the frames
     for sound in noisy[:setsize]:
         for frame in sound:
             X.append(frame)
@@ -115,12 +115,19 @@ def train_set(setsize=0):
 
     Y = []
     frame_size = X.shape[1]
+    print len(clean)
+    print clean[0].shape
     for z in zip(clean[:setsize], noise[:setsize]):
-        sound = np.dstack((z[0], z[1]))
-        sound = sound.reshape((sound.shape[0], sound.shape[1] * 2))
+#        sound = np.dstack((z[0], z[1]))
+#        sound = sound.reshape((sound.shape[0], sound.shape[1] * 2))
+        sound = np.concatenate((z[0], z[1]), axis=1)
         for frame in sound:
             Y.append(frame)
     Y = np.array(Y)
+    print 'X'
+    print X[0,0:10]
+    print 'Y'
+    print Y[0,0:10]
 
     return X, Y
 
