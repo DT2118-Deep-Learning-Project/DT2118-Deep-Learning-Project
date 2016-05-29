@@ -16,15 +16,15 @@ mix_stft = X_train[:180, :]
 mix_stft_en = scipy.absolute(mix_stft)
 tar_stft = Y_train[:180, :]
 tar_stft_en = scipy.absolute(tar_stft)
-scale = 2.31817e+09
-# scale = np.mean(mix_stft_en)
+#scale = 2.31817e+09
+scale = np.mean(mix_stft_en)
 print("Scale: " + str(scale))
 mix_stft_en = mix_stft_en/scale
 tar_stft_en = tar_stft_en/scale
 
 # Retrieve rnn
 #rnn= testnet.retrievernn("results/model_rnn_relu_2_150_weights.h5", 2, 150, 'relu', mix_stft_en)
-dnn= testnet.retrievednn("results/model_dnn_relu_2_150_weights.h5", 2, 150, 'relu', mix_stft_en)
+dnn= testnet.retrievednn("results/model_dnn_relu_4_450_weights.h5", 4, 450, 'relu', mix_stft_en)
 
 # Only for RNN
 #input = rnn. prepare_data(mix_stft_en)

@@ -5,6 +5,7 @@ from output_layer import Output_Layer
 from mask_data_callback import Mask_Data_Callback
 from loss_function import source_separation_loss_function
 import matplotlib.pyplot as pl
+from source_separation.utils.plotter import Plotter
 
 class DNN:
     def __init__(self, input_size, hidden_layer, nodes_hl, stfs, optimizer='sgd', 
@@ -39,7 +40,8 @@ class DNN:
     def fit(self, noisy, targets, nb_epoch=10, batch_size=1):
         X, y = noisy, targets
         mask_data = Mask_Data_Callback(self.stfs.shape[0])
-        self.model.fit(X, y, nb_epoch=nb_epoch, batch_size=batch_size, callbacks=[mask_data])
+        self.model.fit(X, y, nb_epoch=nb_epoch, batch_size=batch_size, callbacks=[mask_data, 
+            Plotter(show_regressions=False, save_to_filepath="test", show_plot_window=False)])
 
     def save(self, name='model', overwrite=False):
         json_string = self.model.to_json()
@@ -49,8 +51,6 @@ class DNN:
     def load_weight(self, path):
       #m = model_from_json(open(name + '.json').read())
       self.model.load_weights(path)
-
-
 
     def evaluate(self, x, y, batch_size=1):
         return self.model.evaluate(x, y, batch_size=batch_size)
