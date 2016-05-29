@@ -36,36 +36,6 @@ class DNN:
         model.add(Output_Layer(output_size, self.stfs))
         return model
 
-    def visu(self,X,Y):
-        '''
-           Plot the array 
-        '''
-        pl.figure(1)
-        pl.subplot(311)
-        pl.imshow(np.transpose(X))
-        pl.subplot(312)
-        pl.imshow(np.transpose(Y[:,0:511]))
-        pl.subplot(313)
-        pl.imshow(np.transpose(Y[:,512:1024]))
-        pl.show()
-        
-    def visuone(self,X,Y,i):
-        '''
-            Only plot the i-th sample
-        '''
-        x = X[i,:]
-        y = Y[i,:]
-        pl.figure(1)
-        pl.subplot(311)
-        pl.plot(np.transpose(x))
-        pl.subplot(312)
-        pl.plot(np.transpose(y[0:511]))
-        pl.subplot(313)
-        pl.plot(np.transpose(y[512:1024]))
-        pl.show()
-
-
-
     def fit(self, noisy, targets, nb_epoch=10, batch_size=1):
         X, y = noisy, targets
         mask_data = Mask_Data_Callback(self.stfs.shape[0])
