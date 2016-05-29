@@ -47,6 +47,7 @@ class RNN:
             y = np.array(y_raw[n_prev - 1:])
             return X,y
         
+        
     def fit(self, noisy, targets, nb_epoch=10, batch_size=1):
         X, y = self.prepare_data(noisy, targets)
         mask_data = Mask_Data_Callback(self.stfs.shape[0])
