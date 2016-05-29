@@ -15,6 +15,7 @@ prefix = os.environ['SPEECH_PROJ_DIR']+"/data/"
 hidden_layer = 2
 nodes = 450
 activation='relu'
+batch_size=100
 
 def train_srs():
     # Load train set    
@@ -37,7 +38,7 @@ def train_srs():
 
     # Train net
     print 'Training'
-    rnn.fit(X, Y, nb_epoch=nb_epoch, batch_size=100)
+    rnn.fit(X, Y, nb_epoch=nb_epoch, batch_size=batch_size)
 
     # Save net
     print 'Saving'
