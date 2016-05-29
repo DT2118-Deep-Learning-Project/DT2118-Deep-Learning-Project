@@ -101,11 +101,15 @@ def train_set(setsize=0):
     if setsize == 0:
         setsize = len(clean)
 
+    cl2 = clean[:]
+    random.shuffle(clean)
+
     Y = []
     X = []
     stft_len = noise[0].shape[1]
-    for z in zip(clean[:setsize], noise[:setsize]):
-        sound = np.concatenate((z[0], z[1]), axis=1)
+    for z in zip(clean[:setsize], cl2[:setsize]):
+        max_size = min([z[0].shape[0], z[1].shape[0]])
+        sound = np.concatenate((z[0][:max_size], z[1][:max_size]), axis=1)
         for frame in sound:
             Y.append(frame)
             X.append(frame[:stft_len] + frame[stft_len:])
