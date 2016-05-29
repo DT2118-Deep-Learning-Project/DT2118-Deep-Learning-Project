@@ -50,7 +50,7 @@ class RNN:
     def fit(self, noisy, targets, nb_epoch=10, batch_size=1):
         X, y = self.prepare_data(noisy, targets)
         mask_data = Mask_Data_Callback(self.stfs.shape[0])
-        self.model.fit(X, y, nb_epoch=nb_epoch, batch_size=1, callbacks=[mask_data])
+        self.model.fit(X, y, nb_epoch=nb_epoch, batch_size=batch_size, callbacks=[mask_data])
 
     def save(self, name='model', overwrite=False):
         json_string = self.model.to_json()
