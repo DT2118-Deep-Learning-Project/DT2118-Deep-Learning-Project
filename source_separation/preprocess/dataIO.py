@@ -104,7 +104,6 @@ def train_set(setsize=0):
     Y = []
     X = []
     stft_len = noise[0].shape[1]
-    print stft_len
     for z in zip(clean[:setsize], noise[:setsize]):
         sound = np.concatenate((z[0], z[1]), axis=1)
         for frame in sound:
@@ -112,6 +111,11 @@ def train_set(setsize=0):
             X.append(frame[:stft_len] + frame[stft_len:])
     X = np.array(X)
     Y = np.array(Y)
+
+    n = np.max(X)
+    X = X / n
+    Y = Y / n
+
     return X, Y
 
 def test_set(setsize=0):
