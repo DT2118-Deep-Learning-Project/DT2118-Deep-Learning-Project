@@ -10,7 +10,7 @@ import numpy as np
 from keras import backend as K
 import theano.tensor as tt
 
-gamma=0.5
+gamma=0.05
 sizesource=1
 
 def split_half(x, axis=0):
@@ -22,7 +22,7 @@ def mean_squared_error(y_true, y_pred):
     """
     Compute mean square
     """
-    return K.mean(K.square(y_pred - y_true), axis=-1)
+    return K.sum(K.square(y_pred - y_true))
     
 def source_separation_loss_function(y_true, y_pred):
     """
@@ -35,6 +35,6 @@ def source_separation_loss_function(y_true, y_pred):
     p1 = mean_squared_error(y1_pred, y1_true)
     p2 = mean_squared_error(y1_pred, y2_true)
     p3 = mean_squared_error(y2_pred, y2_true)
-    p4 = mean_squared_error(y1_pred, y1_true)
+    p4 = mean_squared_error(y2_pred, y1_true)
     return (p1+p3) - gamma*(p2+p4)
 

@@ -9,8 +9,8 @@ import neural_network.DNN as DNN
 import neural_network.loss_function
 from preprocess import dataIO
 
-setsize = 9 # Number of tidigits to take in the set, choose 0 to take all of them
-nb_epoch=3
+setsize = 15 # Number of tidigits to take in the set, choose 0 to take all of them
+nb_epoch=5
 prefix = os.environ['SPEECH_PROJ_DIR']+"/data/"
 hidden_layer = 2
 nodes = 150
