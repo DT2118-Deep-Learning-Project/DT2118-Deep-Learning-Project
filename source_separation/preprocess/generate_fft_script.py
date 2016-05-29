@@ -16,5 +16,5 @@ import os
 # Raise an error if don't exist --> source config_env
 target_dir=os.environ['SPEECH_PROJ_DIR']
 
-dataIO.extractAllFFTfromWAV(target_dir+"/data", target_dir+"/data/features")
+dataIO.extractAllFFTfromWAV(target_dir+"/data", target_dir+"/data/features", percent=0.2)
 

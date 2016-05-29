@@ -9,10 +9,10 @@ import neural_network.DNN as DNN
 import neural_network.loss_function
 from preprocess import dataIO
 
-setsize = 30# Number of tidigits to take in the set, choose 0 to take all of them
-nb_epoch=3
+setsize = 0# Number of tidigits to take in the set, choose 0 to take all of them
+nb_epoch=6
 prefix = os.environ['SPEECH_PROJ_DIR']+"/data/"
-hidden_layer = 4
+hidden_layer = 2
 nodes = 450
 activation='relu'
 
@@ -25,9 +25,10 @@ def train_srs():
     Y = scipy.absolute(Y)
 
     scale = np.mean(X)
+    var = np.std(X)
     print("Scale: " + str(scale))
-    Y = Y / scale
-    X = X / scale
+    Y = (Y - scale)/var
+    X = (X - scale)/var
 
     # Create net
     print 'Building RNN'

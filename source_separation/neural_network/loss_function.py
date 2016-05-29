@@ -10,7 +10,7 @@ import numpy as np
 from keras import backend as K
 import theano.tensor as tt
 
-gamma=0.05
+gamma=0
 sizesource=1
 
 def split_half(x, axis=0):
