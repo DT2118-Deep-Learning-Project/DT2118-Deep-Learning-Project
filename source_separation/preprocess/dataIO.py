@@ -32,7 +32,7 @@ def extractAllFFTfromWAV(src_path, destination, percent=0.05):
             createdir(destination + '/tidigits_' + s_type + '/' + d_type)
 
             # Get all the wav files recursively (used glob)
-            path = src_path + '/tidigits_' + s_type + '/' + d_type
+            path = src_path + '/wav/tidigits_' + s_type + '/' + d_type
             listwavfiles = [y for x in os.walk(path) for y in glob.glob(os.path.join(x[0], '*.wav'))]
             i = 0
             total = int(len(listwavfiles)*percent)
