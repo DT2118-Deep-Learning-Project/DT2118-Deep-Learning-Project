@@ -20,7 +20,6 @@ def train_srs():
     # Load train set    
     print 'Loading files'
     X, Y = dataIO.train_set(setsize)
-
     X = scipy.absolute(X)
     Y = scipy.absolute(Y)
 
@@ -34,6 +33,9 @@ def train_srs():
     rnn = DNN.DNN(512, hidden_layer, nodes, X,
             loss=neural_network.loss_function.source_separation_loss_function, activation=activation)
 
+    print 'Plotting data'
+    #rnn.visuone(X[1:500,:],Y[1:500,:])
+    
     # Train net
     print 'Training'
     rnn.fit(X, Y, nb_epoch=nb_epoch, batch_size=100)
@@ -42,6 +44,7 @@ def train_srs():
     print 'Saving'
     rnn.save()
     return rnn
+
 
 def test_srs(rnn):
     # Load test set

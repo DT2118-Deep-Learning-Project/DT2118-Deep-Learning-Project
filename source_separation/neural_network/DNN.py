@@ -4,6 +4,7 @@ from keras.layers import Dense
 from output_layer import Output_Layer
 from mask_data_callback import Mask_Data_Callback
 from loss_function import source_separation_loss_function
+import matplotlib.pyplot as pl
 
 class DNN:
     def __init__(self, input_size, hidden_layer, nodes_hl, stfs, optimizer='sgd', 
@@ -35,6 +36,30 @@ class DNN:
         model.add(Output_Layer(output_size, self.stfs))
         return model
 
+    def visu(self,X,Y):
+        pl.figure(1)
+        pl.subplot(311)
+        pl.imshow(np.transpose(X))
+        pl.subplot(312)
+        pl.imshow(np.transpose(Y[:,0:511]))
+        pl.subplot(313)
+        pl.imshow(np.transpose(Y[:,512:1024]))
+        pl.show()
+        
+    def visuone(self,X,Y):
+        x = X[1,:]
+        y = Y[1,:]
+        pl.figure(1)
+        pl.subplot(311)
+        pl.plot(np.transpose(x))
+        pl.subplot(312)
+        pl.plot(np.transpose(y[0:511]))
+        pl.subplot(313)
+        pl.plot(np.transpose(y[512:1024]))
+        pl.show()
+
+
+
     def fit(self, noisy, targets, nb_epoch=10, batch_size=1):
         X, y = noisy, targets
         mask_data = Mask_Data_Callback(self.stfs.shape[0])
@@ -48,6 +73,8 @@ class DNN:
     def load_weight(self, path):
       #m = model_from_json(open(name + '.json').read())
       self.model.load_weights(path)
+
+
 
     def evaluate(self, x, y, batch_size=1):
         return self.model.evaluate(x, y, batch_size=batch_size)
