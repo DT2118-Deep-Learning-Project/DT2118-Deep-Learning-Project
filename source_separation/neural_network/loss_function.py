@@ -22,7 +22,7 @@ def mean_squared_error(y_true, y_pred):
     """
     Compute mean square
     """
-    return K.sum(K.square(y_pred - y_true))
+    return K.mean(K.square(y_pred - y_true), axis=-1)
     
 def source_separation_loss_function(y_true, y_pred):
     """
