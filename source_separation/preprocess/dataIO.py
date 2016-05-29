@@ -115,8 +115,6 @@ def train_set(setsize=0):
 
     Y = []
     frame_size = X.shape[1]
-    print len(clean)
-    print clean[0].shape
     for z in zip(clean[:setsize], noise[:setsize]):
 #        sound = np.dstack((z[0], z[1]))
 #        sound = sound.reshape((sound.shape[0], sound.shape[1] * 2))
@@ -124,11 +122,6 @@ def train_set(setsize=0):
         for frame in sound:
             Y.append(frame)
     Y = np.array(Y)
-    print 'X'
-    print X[0,0:10]
-    print 'Y'
-    print Y[0,0:10]
-
     return X, Y
 
 def test_set(setsize=0):
@@ -150,8 +143,8 @@ def test_set(setsize=0):
     
     Y = []
     for z in zip(clean[:setsize], noise[:setsize]):
-        Y.append(np.reshape(
-            np.dstack((z[0], z[1])),
-            (z[0].shape[0], z[0].shape[1] * 2)))
-
+#        Y.append(np.reshape(
+#            np.dstack((z[0], z[1])),
+#            (z[0].shape[0], z[0].shape[1] * 2)))
+        Y.append(np.concatenate((z[0], z[1]), axis=1))
     return X, Y

@@ -37,6 +37,9 @@ class DNN:
         return model
 
     def visu(self,X,Y):
+        '''
+           Plot the array 
+        '''
         pl.figure(1)
         pl.subplot(311)
         pl.imshow(np.transpose(X))
@@ -46,9 +49,12 @@ class DNN:
         pl.imshow(np.transpose(Y[:,512:1024]))
         pl.show()
         
-    def visuone(self,X,Y):
-        x = X[1,:]
-        y = Y[1,:]
+    def visuone(self,X,Y,i):
+        '''
+            Only plot the i-th sample
+        '''
+        x = X[i,:]
+        y = Y[i,:]
         pl.figure(1)
         pl.subplot(311)
         pl.plot(np.transpose(x))

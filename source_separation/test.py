@@ -27,14 +27,15 @@ def train_srs():
     print("Scale: " + str(scale))
     Y = Y / scale
     X = X / scale
-
+    
+    
     # Create net
     print 'Building RNN'
     rnn = DNN.DNN(512, hidden_layer, nodes, X,
             loss=neural_network.loss_function.source_separation_loss_function, activation=activation)
 
     print 'Plotting data'
-    #rnn.visuone(X[1:500,:],Y[1:500,:])
+#    rnn.visuone(X,Y,0)
     
     # Train net
     print 'Training'
@@ -50,7 +51,10 @@ def test_srs(rnn):
     # Load test set
     print 'Loading files'
     X, Y = dataIO.test_set()
-
+    
+    print 'Plotting data'
+    rnn.visuone(X[0],Y[0],0)
+    
     # Load net
 
     # Test net
@@ -60,4 +64,5 @@ def test_srs(rnn):
 
 # Run a train if used as a script
 if __name__ == '__main__':
-    train_srs()
+    rnn = train_srs()
+#    test_srs(rnn)
