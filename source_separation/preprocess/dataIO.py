@@ -112,10 +112,6 @@ def train_set(setsize=0):
     X = np.array(X)
     Y = np.array(Y)
 
-    n = np.max(X)
-    X = X / n
-    Y = Y / n
-
     return X, Y
 
 def test_set(setsize=0):
@@ -127,15 +123,19 @@ def test_set(setsize=0):
         So note that the STFTs are not put into one big 2D array 
         as they are for the train set.
     '''
-    clean, noise, noisy = loadFFTfromFiles('../data/features')
-    clean, noise, noisy = clean['test'], noise['test'], noisy['test']
+    clean, noise = loadFFTfromFiles('../data/features')
+    clean, noise = clean['test'], noise['test']
 
     if setsize == 0:
-        setsize = len(noisy)
+        setsize = len(clean)
 
-    X = noisy[:setsize]
-    
     Y = []
+    X = []
+    stft_len = noise[0].shape[1]
     for z in zip(clean[:setsize], noise[:setsize]):
         Y.append(np.concatenate((z[0], z[1]), axis=1))
+        X.append(z[0] + z[1])
+    X = np.array(X)
+    Y = np.array(Y)
+
     return X, Y
