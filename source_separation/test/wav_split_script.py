@@ -10,12 +10,14 @@ import scipy
 import numpy as np
 
 X_test, Y_test = dataIO.test_set()
+X_train, Y_train = dataIO.train_set()
 
-mix_stft = X_test[1]
-mix_stft_en = scipy.absolute(X_test[1])
-tar_stft = Y_test[1]
-tar_stft_en = scipy.absolute(Y_test[1])
-scale = np.mean(mix_stft_en)
+mix_stft = X_train[:180, :]
+mix_stft_en = scipy.absolute(mix_stft)
+tar_stft = Y_train[:180, :]
+tar_stft_en = scipy.absolute(tar_stft)
+scale = 2.31817e+09
+# scale = np.mean(mix_stft_en)
 print("Scale: " + str(scale))
 mix_stft_en = mix_stft_en/scale
 tar_stft_en = tar_stft_en/scale
