@@ -17,7 +17,7 @@ def extractAllFFTfromWAV(src_path, destination, percent=0.05):
         Writes the STFT into destination, splitting data into train/test
     """
     
-    sound_type = ['clean', 'noise', 'noisy']
+    sound_type = ['clean', 'noise']
     data_type  = ['train', 'test']
 
     # Set up directories, removing first if data already exists
@@ -32,7 +32,7 @@ def extractAllFFTfromWAV(src_path, destination, percent=0.05):
             createdir(destination + '/tidigits_' + s_type + '/' + d_type)
 
             # Get all the wav files recursively (used glob)
-            path = src_path + '/wav/tidigits_' + s_type + '/' + d_type
+            path = src_path + '/tidigits_' + s_type + '/' + d_type
             listwavfiles = [y for x in os.walk(path) for y in glob.glob(os.path.join(x[0], '*.wav'))]
             i = 0
             total = int(len(listwavfiles)*percent)
@@ -53,17 +53,12 @@ def extractAllFFTfromWAV(src_path, destination, percent=0.05):
 def loadFFTfromFiles(src_path):
     """
         Load all the npz files, assuming src_path contains
-        clean, noise, noisy directories & train + test in each of them
-        
-        returns a dictionnary with keys clean / noise / noisy with elements
-        another dictionnary with keys train / test, with elements a 3D array with the STFT
+        clean & noise directories & train + test in each of them
 
-        E.g. one can write: loadFFTfromFiles('path')['clean']['train'][99], which correspond to the
-        STFT of the clean/train tidigit from the 100th file.
-
-        So loadFFTfromFiles('path')['clean']['train'][99] is a np array of size (N_windows, 512)
+        return 2 lists 'clean' and 'noise' for which each element is a numpy array
+        representing the FFT from one file
     """
-    sound_type = ['clean', 'noise', 'noisy']
+    sound_type = ['clean', 'noise']
     data_type  = ['train', 'test']
 
     # Going through all the subfolders (clean/train, clean/test, noise/train...)
@@ -83,7 +78,7 @@ def loadFFTfromFiles(src_path):
 
         STFTs[s_type] = s_type_stft
 
-    return STFTs['clean'], STFTs['noise'], STFTs['noisy']
+    return STFTs['clean'], STFTs['noise']
 
 def saveFFTlistToWAVs(stft_data, destination):
     """
@@ -100,27 +95,22 @@ def train_set(setsize=0):
     '''
         Return train set, cropped to setsize, or the whole set if setsize == 0 
     '''
-    clean, noise, noisy = loadFFTfromFiles('../data/features')
-    clean, noise, noisy = clean['train'], noise['train'], noisy['train']
+    clean, noise = loadFFTfromFiles('../data/features')
+    clean, noise = clean['train'], noise['train']
 
     if setsize == 0:
-        setsize = len(noisy)
-
-    X = []
-    # Let's build a big 2D array with all the frames
-    for sound in noisy[:setsize]:
-        for frame in sound:
-            X.append(frame)
-    X = np.array(X)
+        setsize = len(clean)
 
     Y = []
-    frame_size = X.shape[1]
+    X = []
+    stft_len = noise[0].shape[1]
+    print stft_len
     for z in zip(clean[:setsize], noise[:setsize]):
-#        sound = np.dstack((z[0], z[1]))
-#        sound = sound.reshape((sound.shape[0], sound.shape[1] * 2))
         sound = np.concatenate((z[0], z[1]), axis=1)
         for frame in sound:
             Y.append(frame)
+            X.append(frame[:stft_len] + frame[stft_len:])
+    X = np.array(X)
     Y = np.array(Y)
     return X, Y
 
@@ -143,8 +133,5 @@ def test_set(setsize=0):
     
     Y = []
     for z in zip(clean[:setsize], noise[:setsize]):
-#        Y.append(np.reshape(
-#            np.dstack((z[0], z[1])),
-#            (z[0].shape[0], z[0].shape[1] * 2)))
         Y.append(np.concatenate((z[0], z[1]), axis=1))
     return X, Y
