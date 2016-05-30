@@ -39,7 +39,7 @@ pred_stft_en = dnn.predict(mix_stft_en)
 #mask_1 = pred_stft_en[:, :512] / mix_stft_en[:186]
 #pred_stft = mix_stft[:186]* mask_1
 
-mask_1 = pred_stft_en[:, :512] / mix_stft_en
+mask_1 = (pred_stft_en[:, :512]*var+scale) / (mix_stft_en*var+scale)
 pred_stft = mix_stft * mask_1
 
 wav_fft.writeWAV("essai", pred_stft)
